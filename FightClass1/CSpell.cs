@@ -37,6 +37,12 @@ namespace FightClass1
 
         public SpellEntry SpellEntry { get; private set; }
 
+        public void LaunchUsable(bool stopMove, bool waitIsCast, bool ignoreIfCast, bool castOnSelf)
+        {
+            // The randomness here is because some spells fail cancast on serverside, and it's nice to fail like that sometimes... Like humans (Might be wrong, idk)
+            if (IsSpellUsable || new Random().Next(0, 4) == 0)
+                Launch(stopMove, waitIsCast, ignoreIfCast, castOnSelf);
+        }
 
         public List<uint> GetKnownSpellIds()
         {

@@ -39,37 +39,33 @@ namespace FightClass1.FightClasses
 
             if (!player.InCombat)
             {
-                if (!player.HaveBuff("Mark of the Wild") && motw.IsSpellUsable)
-                    motw.Launch(false, true, true, true);
+                if (!player.HaveBuff("Mark of the Wild"))
+                    motw.LaunchUsable(false, true, true, true);
 
-                if (!player.HaveBuff("Thorns") && thorns.IsSpellUsable)
-                    thorns.Launch(false, true, true, true);
+                if (!player.HaveBuff("Thorns"))
+                    thorns.LaunchUsable(false, true, true, true);
             }
             else
             {
                 if (target != null)
                 {
-                    if (!player.HaveBuff("Cat Form") && target.IsAttackable && catform.IsSpellUsable && GetRange(player, target) < target.AggroDistance + 10)
-                        catform.Launch(false, true, false, true);
+                    if (!player.HaveBuff("Cat Form") && target.IsAttackable && GetRange(player, target) < target.AggroDistance + 10)
+                        catform.LaunchUsable(false, true, false, true);
 
-                    if (!player.InCombat && !player.HaveBuff("Prowl") && SpellManager.KnowSpell("Pounce") && prowl.IsSpellUsable && GetRange(player, target) < target.AggroDistance + 5)
-                        prowl.Launch(false, true, false, true);
+                    if (!player.InCombat && !player.HaveBuff("Prowl") && SpellManager.KnowSpell("Pounce") && GetRange(player, target) < target.AggroDistance + 5)
+                        prowl.LaunchUsable(false, true, false, true);
 
                     uint manacost = regrowth.ManaCost;
                     if (player.HaveBuff("Cat Form"))
                         manacost += catform.ManaCost;
 
-                    Logging.WriteDebug(string.Format("Regrowth spellid: {0}", regrowth.ID));
-                    Logging.WriteDebug(string.Format("Regrowth manacost: {0}", manacost));
-                    Logging.WriteDebug(string.Format("Regrowth rank: {0}", regrowth.SpellLevel));
+                    if (player.MaxHealth - player.Health > 400 && !player.HaveBuff("Regrowth") && player.Mana >= manacost)
+                        regrowth.LaunchUsable(false, true, false, true);
 
-                    if (player.MaxHealth - player.Health > 400 && !player.HaveBuff("Regrowth") && regrowth.IsSpellUsable && player.Mana >= manacost)
-                        regrowth.Launch(false, true, false, true);
-
-                    if (player.ComboPoint < 5 && claw.IsSpellUsable)
+                    if (player.ComboPoint < 5)
                         claw.Launch(false, true, false, false);
-                    else if (player.ComboPoint == 5 && ferociousbite.IsSpellUsable)
-                        ferociousbite.Launch(false, true, false, false);
+                    else if (player.ComboPoint == 5)
+                        ferociousbite.LaunchUsable(false, true, false, false);
                 }
             }
         }
