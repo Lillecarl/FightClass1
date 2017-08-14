@@ -9,7 +9,7 @@ namespace SpellWork
     public static class DBC
     {
         public const string VERSION = "SpellWork 2.4.3 (8606)";
-        public const string DBC_PATH = @"dbc\";
+        public const string DBC_PATH = @"Data\DBC\";
 
         public const int MAX_DBC_LOCALE = 16;
         public const int MAX_EFFECT_INDEX = 3;

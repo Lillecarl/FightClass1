@@ -17,6 +17,7 @@ using wManager.Wow.Enums;
 using FightClass1;
 using FightClass1.FightClasses;
 using SpellWork;
+using WoWDB;
 
 public class Main : ICustomClass
 {
@@ -26,15 +27,7 @@ public class Main : ICustomClass
 
     public void Initialize()
     {
-        engine = new Engine(false);
-        engine.States.Add(new CombatState { Priority = int.MaxValue });
-
-        engine.States.Sort();
-        engine.StartEngine(10, "Carlcombat", true);
-
-        if (!Directory.Exists("DBC"))
-            Directory.CreateDirectory("DBC");
-        else
+        if (Directory.Exists(@"Data\DBC"))
         {
             lock (Global.DBCLock)
             {
@@ -48,6 +41,17 @@ public class Main : ICustomClass
                 DBC.SpellCastTimes = DBCReader.ReadDBC<SpellCastTimesEntry>(null);
             }
         }
+        else
+            Logging.WriteError("DBC Folder doesn't exist!");
+
+        DataMgr.Init();
+
+
+        engine = new Engine(false);
+        engine.States.Add(new CombatState { Priority = int.MaxValue });
+
+        engine.States.Sort();
+        engine.StartEngine(10, "Carlcombat", true);
     }
 
     public void Dispose()

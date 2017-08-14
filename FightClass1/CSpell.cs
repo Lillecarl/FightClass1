@@ -14,11 +14,20 @@ using Timer = robotManager.Helpful.Timer;
 using wManager.Wow.Enums;
 using SpellWork;
 using System.Runtime.InteropServices;
+using WoWDB.Entities;
+using WoWDB;
 
 namespace FightClass1
 {
     class CSpell : Spell
     {
+        public static CSpell GetHighestSpellById(uint spellId)
+        {
+            var spell = new CSpell(spellId);
+            spell = new CSpell(spell.GetHighestKnownSpell());
+            return spell;
+        }
+
         public CSpell(string spellNameEnglish) : base(spellNameEnglish) { Init(); }
         public CSpell(int spellId) : base(spellId) { Init(); }
         public CSpell(uint spellId) : base(spellId) { Init(); }
@@ -28,6 +37,7 @@ namespace FightClass1
         {
             lock (Global.DBCLock)
             {
+                
                 SpellEntry = DBC.Spell[GetHighestKnownSpell()];
             }
             return this;
@@ -37,11 +47,15 @@ namespace FightClass1
 
         public SpellEntry SpellEntry { get; private set; }
 
-        public void LaunchUsable(bool stopMove, bool waitIsCast, bool ignoreIfCast, bool castOnSelf)
+        public void LaunchUsable(bool checkrange = false)
         {
-            // The randomness here is because some spells fail cancast on serverside, and it's nice to fail like that sometimes... Like humans (Might be wrong, idk)
-            if (IsSpellUsable || new Random().Next(0, 4) == 0)
-                Launch(stopMove, waitIsCast, ignoreIfCast, castOnSelf);
+            bool inrange = !checkrange;
+
+            if (!inrange && ObjectManager.Target != null)
+                inrange = Helper.GetRange(ObjectManager.Me, ObjectManager.Target) < MaxRange;
+
+            if (inrange && !ObjectManager.Me.IsCast && IsSpellUsable && !ObjectManager.Me.HaveBuff("Drink") && !ObjectManager.Me.HaveBuff("Food"))
+                Lua.RunMacroText(string.Format("/cast {0}", this.NameInGame));
         }
 
         public List<uint> GetKnownSpellIds()
@@ -52,6 +66,16 @@ namespace FightClass1
         public uint GetHighestKnownSpell()
         {
             return Ids.Where(SpellManager.KnowSpell).OrderByDescending(i => i).FirstOrDefault();
+        }
+
+        public long RealManaCost(long basemana)
+        {
+            long manacost = ManaCost;
+
+            if (ManaCostPercentage != 0)
+                manacost += basemana * ManaCostPercentage / 100;
+
+            return manacost;
         }
 
         // Wrapper or smth...

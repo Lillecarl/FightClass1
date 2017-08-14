@@ -11,6 +11,8 @@
     <AssemblyName>FightClass1</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -78,7 +80,14 @@
     <Compile Include="FightClasses\Druid_Feral.cs" />
     <Compile Include="FighterBase.cs" />
     <Compile Include="Global.cs" />
+    <Compile Include="Helper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WoWDB\WoWDB.csproj">
+      <Project>{16040ed0-2487-44cd-9da0-69f3934b92cb}</Project>
+      <Name>WoWDB</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
