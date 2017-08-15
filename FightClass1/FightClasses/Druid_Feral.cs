@@ -33,6 +33,7 @@ namespace FightClass1.FightClasses
         CSpell faeriefire = new CSpell("Faerie Fire");
         CSpell manglecat = new CSpell("Mangle (Cat)");
         CSpell rake = new CSpell("Rake");
+        CSpell aquaticform = new CSpell("Aquatic Form");
 
         WoWLocalPlayer player = null;
         WoWUnit target = null;
@@ -86,6 +87,11 @@ namespace FightClass1.FightClasses
                     else if (player.ComboPoint == 5)
                         ferociousbite.LaunchUsable();
                 }
+            }
+            else if (!player.IsMounted)
+            {
+                if (player.IsSwimming && !player.HaveBuff("Aquatic Form"))
+                    aquaticform.LaunchUsable();
             }
 
             if (target != null && target.IsAttackable && !target.HaveBuff("Faerie Fire") && !target.HaveBuff("Faerie Fire (Feral)") && !player.HaveBuff("Prowl"))
