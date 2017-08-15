@@ -17,9 +17,9 @@ using System.Runtime.InteropServices;
 using WoWDB.Entities;
 using WoWDB;
 
-namespace FightClass1
+namespace WoWAPI
 {
-    class CSpell : Spell
+    public class CSpell : Spell
     {
         public static CSpell GetHighestSpellById(uint spellId)
         {
@@ -35,11 +35,7 @@ namespace FightClass1
 
         public CSpell Init()
         {
-            lock (Global.DBCLock)
-            {
-                
-                SpellEntry = DBC.Spell[GetHighestKnownSpell()];
-            }
+            SpellEntry = DBC.Spell[GetHighestKnownSpell()];
             return this;
         }
 
@@ -51,10 +47,10 @@ namespace FightClass1
         {
             bool inrange = !checkrange;
 
-            if (!inrange && ObjectManager.Target != null)
-                inrange = Helper.GetRange(ObjectManager.Me, ObjectManager.Target) < MaxRange;
+            if (!inrange && WoWAPI.Target != null)
+                inrange = Helper.GetRange(WoWAPI.Player, WoWAPI.Target) < MaxRange;
 
-            if (inrange && !ObjectManager.Me.IsCast && IsSpellUsable && !ObjectManager.Me.HaveBuff("Drink") && !ObjectManager.Me.HaveBuff("Food"))
+            if (inrange && !ObjectManager.Me.IsCast && IsSpellUsable && !WoWAPI.Player.HaveBuff("Drink") && !WoWAPI.Player.HaveBuff("Food"))
                 Lua.RunMacroText(string.Format("/cast {0}", this.NameInGame));
         }
 

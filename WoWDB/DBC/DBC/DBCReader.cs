@@ -6,10 +6,12 @@ using System.Runtime.InteropServices;
 
 namespace SpellWork
 {
-    static class DBCReader
+    public static class DBCReader
     {
         public static unsafe Dictionary<uint, T> ReadDBC<T>(Dictionary<uint, string> strDict) where T : struct
         {
+            strDict = new Dictionary<uint, string>();
+
             Dictionary<uint, T> dict = new Dictionary<uint, T>();
             String fileName = Path.Combine(DBC.DBC_PATH, typeof(T).Name + ".dbc").Replace("Entry", String.Empty);
 

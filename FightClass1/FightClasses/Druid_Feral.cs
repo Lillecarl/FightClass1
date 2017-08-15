@@ -15,6 +15,7 @@ using wManager.Wow.Enums;
 using SpellWork;
 using WoWDB;
 using WoWDB.Entities;
+using WoWAPI;
 
 namespace FightClass1.FightClasses
 {
@@ -50,8 +51,8 @@ namespace FightClass1.FightClasses
 
         public override void Update()
         {
-            player = ObjectManager.Me;
-            target = ObjectManager.Target;
+            player = WoWAPI.WoWAPI.Player;
+            target = WoWAPI.WoWAPI.Target;
 
             if (player.IsDead)
                 return;
@@ -119,7 +120,8 @@ namespace FightClass1.FightClasses
         {
             if (DateTime.Now > _LastRunOnInterval.AddSeconds(_RunOnInterval) && !player.IsMounted)
             {
-                basemana = DataMgr.player_classlevelstats.Where(m => m.Class == (long)player.WowClass && m.level == player.Level).Single().basemana;
+                basemana = Database.ExecuteScalar<long>("SELECT basemana FROM player_classlevelstats WHERE Class = @Class AND level = @Level", new { Class = player.WowClass.ToUInt32(), Level = player.Level });
+                Logging.WriteDebug(string.Format("Basemana: {0}", basemana));
 
                 Buff();
                 RemoveItems();
@@ -168,7 +170,7 @@ namespace FightClass1.FightClasses
 
             foreach (var i in Bag.GetBagItem())
             {
-                var item = DataMgr.item_template.Where(m => m.entry == i.Entry).Single();
+                var item = Database.Get<item_template, int>(i.Entry);
 
                 if ((item.Quality == 0 || item.Quality == 1) && item.bonding != 4 && item.spellid_1 == 0 && item.spellid_2 == 0 && item.spellid_3 == 0 && item.spellid_4 == 0 && item.spellid_5 == 0)
                     RemoveItem(item);
