@@ -1,25 +1,32 @@
 ﻿using System;
+using Dapper;
+using Dapper.Contrib;
+using Dapper.Contrib.Extensions;
 
 namespace WoWDB.Entities
 {
+    [Table ("areatrigger_involvedrelation")]
     public partial class areatrigger_involvedrelation
     {
+        [Key]
         public long id { get; set; }
 
         public long quest { get; set; }
 
     }
-
+    [Table("areatrigger_tavern")]
     public partial class areatrigger_tavern
     {
+        [Key]
         public long id { get; set; }
 
         public string name { get; set; }
 
     }
-
+    [Table("areatrigger_teleport")]
     public partial class areatrigger_teleport
     {
+        [Key]
         public long id { get; set; }
 
         public string name { get; set; }
@@ -55,21 +62,23 @@ namespace WoWDB.Entities
         public string status_failed_text { get; set; }
 
     }
-
+    [Table("battleground_events")]
     public partial class battleground_events
     {
+        [Key]
         public long map { get; set; }
-
+        [Key]
         public long event1 { get; set; }
-
+        [Key]
         public long event2 { get; set; }
 
         public string description { get; set; }
 
     }
-
+    [Table("battleground_template")]
     public partial class battleground_template
     {
+        [Key]
         public long id { get; set; }
 
         public long MinPlayersPerTeam { get; set; }
@@ -91,17 +100,19 @@ namespace WoWDB.Entities
         public double StartMaxDist { get; set; }
 
     }
-
+    [Table("battlemaster_entry")]
     public partial class battlemaster_entry
     {
+        [Key]
         public long entry { get; set; }
 
         public long bg_template { get; set; }
 
     }
-
+    [Table("command")]
     public partial class command
     {
+        [Key]
         public string name { get; set; }
 
         public long security { get; set; }
@@ -109,9 +120,10 @@ namespace WoWDB.Entities
         public string help { get; set; }
 
     }
-
+    [Table("conditions")]
     public partial class conditions
     {
+        [Key]
         public long condition_entry { get; set; }
 
         public long type { get; set; }
@@ -121,7 +133,7 @@ namespace WoWDB.Entities
         public long value2 { get; set; }
 
     }
-
+    [Table("sqlite_sequence")]
     public partial class sqlite_sequence
     {
         public string name { get; set; }
@@ -129,9 +141,10 @@ namespace WoWDB.Entities
         public long? seq { get; set; }
 
     }
-
+    [Table("creature")]
     public partial class creature
     {
+        [Key]
         public long guid { get; set; }
 
         public long id { get; set; }
@@ -169,9 +182,10 @@ namespace WoWDB.Entities
         public long MovementType { get; set; }
 
     }
-
+    [Table("creature_addon")]
     public partial class creature_addon
     {
+        [Key]
         public long guid { get; set; }
 
         public long mount { get; set; }
@@ -189,9 +203,10 @@ namespace WoWDB.Entities
         public string auras { get; set; }
 
     }
-
+    [Table("creature_ai_scripts")]
     public partial class creature_ai_scripts
     {
+        [Key]
         public long id { get; set; }
 
         public long creature_id { get; set; }
@@ -239,9 +254,10 @@ namespace WoWDB.Entities
         public string comment { get; set; }
 
     }
-
+    [Table("creature_ai_summons")]
     public partial class creature_ai_summons
     {
+        [Key]
         public long id { get; set; }
 
         public double position_x { get; set; }
@@ -257,9 +273,10 @@ namespace WoWDB.Entities
         public string comment { get; set; }
 
     }
-
+    [Table("creature_ai_texts")]
     public partial class creature_ai_texts
     {
+        [Key]
         public long entry { get; set; }
 
         public string content_default { get; set; }
@@ -291,9 +308,10 @@ namespace WoWDB.Entities
         public string comment { get; set; }
 
     }
-
+    [Table("creature_battleground")]
     public partial class creature_battleground
     {
+        [Key]
         public long guid { get; set; }
 
         public long event1 { get; set; }
@@ -301,9 +319,10 @@ namespace WoWDB.Entities
         public long event2 { get; set; }
 
     }
-
+    [Table("creature_equip_template")]
     public partial class creature_equip_template
     {
+        [Key]
         public long entry { get; set; }
 
         public long equipentry1 { get; set; }
@@ -313,9 +332,10 @@ namespace WoWDB.Entities
         public long equipentry3 { get; set; }
 
     }
-
+    [Table("creature_equip_template_raw")]
     public partial class creature_equip_template_raw
     {
+        [Key]
         public long entry { get; set; }
 
         public long equipmodel1 { get; set; }
@@ -337,15 +357,16 @@ namespace WoWDB.Entities
         public long equipslot3 { get; set; }
 
     }
-
+    [Table("creature_involvedrelation")]
     public partial class creature_involvedrelation
     {
+        [Key]
         public long id { get; set; }
 
         public long quest { get; set; }
 
     }
-
+    [Table("creature_linking")]
     public partial class creature_linking
     {
         public long guid { get; set; }
@@ -355,11 +376,12 @@ namespace WoWDB.Entities
         public long flag { get; set; }
 
     }
-
+    [Table("creature_linking_template")]
     public partial class creature_linking_template
     {
+        [Key]
         public long entry { get; set; }
-
+        [Key]
         public long map { get; set; }
 
         public long master_entry { get; set; }
@@ -369,9 +391,10 @@ namespace WoWDB.Entities
         public long search_range { get; set; }
 
     }
-
+    [Table("creature_loot_template")]
     public partial class creature_loot_template
     {
+        [Key]
         public long entry { get; set; }
 
         public long item { get; set; }
@@ -389,9 +412,10 @@ namespace WoWDB.Entities
         public string comments { get; set; }
 
     }
-
+    [Table("creature_model_info")]
     public partial class creature_model_info
     {
+        [Key]
         public long modelid { get; set; }
 
         public double bounding_radius { get; set; }
@@ -405,9 +429,10 @@ namespace WoWDB.Entities
         public long modelid_alternative { get; set; }
 
     }
-
+    [Table("creature_model_race")]
     public partial class creature_model_race
     {
+        [Key]
         public long modelid { get; set; }
 
         public long racemask { get; set; }
@@ -417,11 +442,12 @@ namespace WoWDB.Entities
         public long modelid_racial { get; set; }
 
     }
-
+    [Table("creature_movement")]
     public partial class creature_movement
     {
+        [Key]
         public long id { get; set; }
-
+        [Key]
         public long point { get; set; }
 
         public double position_x { get; set; }
@@ -455,13 +481,14 @@ namespace WoWDB.Entities
         public long model2 { get; set; }
 
     }
-
+    [Table("creature_movement_template")]
     public partial class creature_movement_template
     {
+        [Key]
         public long entry { get; set; }
-
+        [Key]
         public long pathId { get; set; }
-
+        [Key]
         public long point { get; set; }
 
         public double position_x { get; set; }
@@ -495,9 +522,10 @@ namespace WoWDB.Entities
         public long model2 { get; set; }
 
     }
-
+    [Table("creature_onkill_reputation")]
     public partial class creature_onkill_reputation
     {
+        [Key]
         public long creature_id { get; set; }
 
         public long RewOnKillRepFaction1 { get; set; }
@@ -519,17 +547,19 @@ namespace WoWDB.Entities
         public long TeamDependent { get; set; }
 
     }
-
+    [Table("creature_questrelation")]
     public partial class creature_questrelation
     {
+        [Key]
         public long id { get; set; }
 
         public long quest { get; set; }
 
     }
-
+    [Table("creature_template")]
     public partial class creature_template
     {
+        [Key]
         public long Entry { get; set; }
 
         public string Name { get; set; }
@@ -683,9 +713,10 @@ namespace WoWDB.Entities
         public string ScriptName { get; set; }
 
     }
-
+    [Table("creature_template_addon")]
     public partial class creature_template_addon
     {
+        [Key]
         public long entry { get; set; }
 
         public long mount { get; set; }
@@ -703,11 +734,12 @@ namespace WoWDB.Entities
         public string auras { get; set; }
 
     }
-
+    [Table("creature_template_classlevelstats")]
     public partial class creature_template_classlevelstats
     {
+        [Key]
         public long Level { get; set; }
-
+        [Key]
         public long Class { get; set; }
 
         public long BaseHealthExp0 { get; set; }
@@ -727,9 +759,10 @@ namespace WoWDB.Entities
         public long BaseArmor { get; set; }
 
     }
-
+    [Table("creature_template_spells")]
     public partial class creature_template_spells
     {
+        [Key]
         public long entry { get; set; }
 
         public long spell1 { get; set; }
@@ -741,9 +774,10 @@ namespace WoWDB.Entities
         public long spell4 { get; set; }
 
     }
-
+    [Table("custom_texts")]
     public partial class custom_texts
     {
+        [Key]
         public long entry { get; set; }
 
         public string content_default { get; set; }
@@ -775,9 +809,10 @@ namespace WoWDB.Entities
         public string comment { get; set; }
 
     }
-
+    [Table("db_script_string")]
     public partial class db_script_string
     {
+        [Key]
         public long entry { get; set; }
 
         public string content_default { get; set; }
@@ -809,7 +844,7 @@ namespace WoWDB.Entities
         public string comment { get; set; }
 
     }
-
+    [Table("db_version")]
     public partial class db_version
     {
         public string version { get; set; }
@@ -819,17 +854,19 @@ namespace WoWDB.Entities
         public Boolean? required_s2353_01_mangos_spell_affect { get; set; }
 
     }
-
+    [Table("dbscript_string_template")]
     public partial class dbscript_string_template
     {
+        [Key]
         public long id { get; set; }
 
         public long string_id { get; set; }
 
     }
-
+    [Table("dbscripts_on_creature_death")]
     public partial class dbscripts_on_creature_death
     {
+        [Key]
         public long id { get; set; }
 
         public long delay { get; set; }
@@ -867,9 +904,10 @@ namespace WoWDB.Entities
         public string comments { get; set; }
 
     }
-
+    [Table("dbscripts_on_creature_movement")]
     public partial class dbscripts_on_creature_movement
     {
+        [Key]
         public long id { get; set; }
 
         public long delay { get; set; }
@@ -907,9 +945,10 @@ namespace WoWDB.Entities
         public string comments { get; set; }
 
     }
-
+    [Table("dbscripts_on_event")]
     public partial class dbscripts_on_event
     {
+        [Key]
         public long id { get; set; }
 
         public long delay { get; set; }
@@ -947,9 +986,10 @@ namespace WoWDB.Entities
         public string comments { get; set; }
 
     }
-
+    [Table("dbscripts_on_go_template_use")]
     public partial class dbscripts_on_go_template_use
     {
+        [Key]
         public long id { get; set; }
 
         public long delay { get; set; }
@@ -987,9 +1027,10 @@ namespace WoWDB.Entities
         public string comments { get; set; }
 
     }
-
+    [Table("dbscripts_on_go_use")]
     public partial class dbscripts_on_go_use
     {
+        [Key]
         public long id { get; set; }
 
         public long delay { get; set; }
@@ -1027,9 +1068,10 @@ namespace WoWDB.Entities
         public string comments { get; set; }
 
     }
-
+    [Table("dbscripts_on_gossip")]
     public partial class dbscripts_on_gossip
     {
+        [Key]
         public long id { get; set; }
 
         public long delay { get; set; }
@@ -1067,9 +1109,10 @@ namespace WoWDB.Entities
         public string comments { get; set; }
 
     }
-
+    [Table("dbscripts_on_quest_end")]
     public partial class dbscripts_on_quest_end
     {
+        [Key]
         public long id { get; set; }
 
         public long delay { get; set; }
@@ -1107,9 +1150,10 @@ namespace WoWDB.Entities
         public string comments { get; set; }
 
     }
-
+    [Table("dbscripts_on_quest_start")]
     public partial class dbscripts_on_quest_start
     {
+        [Key]
         public long id { get; set; }
 
         public long delay { get; set; }
@@ -1147,9 +1191,10 @@ namespace WoWDB.Entities
         public string comments { get; set; }
 
     }
-
+    [Table("dbscripts_on_spell")]
     public partial class dbscripts_on_spell
     {
+        [Key]
         public long id { get; set; }
 
         public long delay { get; set; }
@@ -1187,9 +1232,10 @@ namespace WoWDB.Entities
         public string comments { get; set; }
 
     }
-
+    [Table("disenchant_loot_template")]
     public partial class disenchant_loot_template
     {
+        [Key]
         public long entry { get; set; }
 
         public long item { get; set; }
@@ -1207,17 +1253,19 @@ namespace WoWDB.Entities
         public string comments { get; set; }
 
     }
-
+    [Table("exploration_basexp")]
     public partial class exploration_basexp
     {
+        [Key]
         public long level { get; set; }
 
         public long basexp { get; set; }
 
     }
-
+    [Table("fishing_loot_template")]
     public partial class fishing_loot_template
     {
+        [Key]
         public long entry { get; set; }
 
         public long item { get; set; }
@@ -1235,9 +1283,10 @@ namespace WoWDB.Entities
         public string comments { get; set; }
 
     }
-
+    [Table("game_event")]
     public partial class game_event
     {
+        [Key]
         public long entry { get; set; }
 
         public DateTime start_time { get; set; }
@@ -1255,17 +1304,19 @@ namespace WoWDB.Entities
         public string description { get; set; }
 
     }
-
+    [Table("game_event_creature")]
     public partial class game_event_creature
     {
+        [Key]
         public long guid { get; set; }
 
         public long event_ { get; set; }
 
     }
-
+    [Table("game_event_creature_data")]
     public partial class game_event_creature_data
     {
+        [Key]
         public long guid { get; set; }
 
         public long entry_id { get; set; }
@@ -1283,17 +1334,19 @@ namespace WoWDB.Entities
         public long event_ { get; set; }
 
     }
-
+    [Table("game_event_gameobject")]
     public partial class game_event_gameobject
     {
+        [Key]
         public long guid { get; set; }
 
         public long event_ { get; set; }
 
     }
-
+    [Table("game_event_mail")]
     public partial class game_event_mail
     {
+        [Key]
         public long event_ { get; set; }
 
         public long raceMask { get; set; }
@@ -1305,17 +1358,19 @@ namespace WoWDB.Entities
         public long senderEntry { get; set; }
 
     }
-
+    [Table("game_event_quest")]
     public partial class game_event_quest
     {
+        [Key]
         public long quest { get; set; }
 
         public long event_ { get; set; }
 
     }
-
+    [Table("game_graveyard_zone")]
     public partial class game_graveyard_zone
     {
+        [Key]
         public long id { get; set; }
 
         public long ghost_zone { get; set; }
@@ -1323,9 +1378,10 @@ namespace WoWDB.Entities
         public long faction { get; set; }
 
     }
-
+    [Table("game_tele")]
     public partial class game_tele
     {
+        [Key]
         public long id { get; set; }
 
         public double position_x { get; set; }
@@ -1341,9 +1397,10 @@ namespace WoWDB.Entities
         public string name { get; set; }
 
     }
-
+    [Table("game_weather")]
     public partial class game_weather
     {
+        [Key]
         public long zone { get; set; }
 
         public long spring_rain_chance { get; set; }
@@ -1371,9 +1428,10 @@ namespace WoWDB.Entities
         public long winter_storm_chance { get; set; }
 
     }
-
+    [Table("gameobject")]
     public partial class gameobject
     {
+        [Key]
         public long guid { get; set; }
 
         public long id { get; set; }
@@ -1407,9 +1465,10 @@ namespace WoWDB.Entities
         public long state { get; set; }
 
     }
-
+    [Table("gameobject_battleground")]
     public partial class gameobject_battleground
     {
+        [Key]
         public long guid { get; set; }
 
         public long event1 { get; set; }
@@ -1417,17 +1476,19 @@ namespace WoWDB.Entities
         public long event2 { get; set; }
 
     }
-
+    [Table("gameobject_involvedrelation")]
     public partial class gameobject_involvedrelation
     {
+        [Key]
         public long id { get; set; }
 
         public long quest { get; set; }
 
     }
-
+    [Table("gameobject_loot_template")]
     public partial class gameobject_loot_template
     {
+        [Key]
         public long entry { get; set; }
 
         public long item { get; set; }
@@ -1445,17 +1506,19 @@ namespace WoWDB.Entities
         public string comments { get; set; }
 
     }
-
+    [Table("gameobject_questrelation")]
     public partial class gameobject_questrelation
     {
+        [Key]
         public long id { get; set; }
 
         public long quest { get; set; }
 
     }
-
+    [Table("gameobject_template")]
     public partial class gameobject_template
     {
+        [Key]
         public long entry { get; set; }
 
         public long type { get; set; }
@@ -1533,9 +1596,10 @@ namespace WoWDB.Entities
         public string ScriptName { get; set; }
 
     }
-
+    [Table("gossip_menu")]
     public partial class gossip_menu
     {
+        [Key]
         public long entry { get; set; }
 
         public long text_id { get; set; }
@@ -1545,9 +1609,10 @@ namespace WoWDB.Entities
         public long condition_id { get; set; }
 
     }
-
+    [Table("gossip_menu_option")]
     public partial class gossip_menu_option
     {
+        [Key]
         public long menu_id { get; set; }
 
         public long id { get; set; }
@@ -1575,9 +1640,10 @@ namespace WoWDB.Entities
         public long condition_id { get; set; }
 
     }
-
+    [Table("gossip_texts")]
     public partial class gossip_texts
     {
+        [Key]
         public long entry { get; set; }
 
         public string content_default { get; set; }
@@ -1601,9 +1667,10 @@ namespace WoWDB.Entities
         public string comment { get; set; }
 
     }
-
+    [Table("instance_dungeon_encounters")]
     public partial class instance_dungeon_encounters
     {
+        [Key]
         public long Id { get; set; }
 
         public long MapId { get; set; }
@@ -1651,9 +1718,10 @@ namespace WoWDB.Entities
         public long SpellIconID { get; set; }
 
     }
-
+    [Table("instance_encounters")]
     public partial class instance_encounters
     {
+        [Key]
         public long entry { get; set; }
 
         public long creditType { get; set; }
@@ -1663,9 +1731,10 @@ namespace WoWDB.Entities
         public long lastEncounterDungeon { get; set; }
 
     }
-
+    [Table("instance_template")]
     public partial class instance_template
     {
+        [Key]
         public long map { get; set; }
 
         public long parent { get; set; }
@@ -1683,9 +1752,10 @@ namespace WoWDB.Entities
         public long mountAllowed { get; set; }
 
     }
-
+    [Table("item_enchantment_template")]
     public partial class item_enchantment_template
     {
+        [Key]
         public long entry { get; set; }
 
         public long ench { get; set; }
@@ -1693,9 +1763,10 @@ namespace WoWDB.Entities
         public double chance { get; set; }
 
     }
-
+    [Table("item_loot_template")]
     public partial class item_loot_template
     {
+        [Key]
         public long entry { get; set; }
 
         public long item { get; set; }
@@ -1713,9 +1784,10 @@ namespace WoWDB.Entities
         public string comments { get; set; }
 
     }
-
+    [Table("item_required_target")]
     public partial class item_required_target
     {
+        [Key]
         public long entry { get; set; }
 
         public long type { get; set; }
@@ -1723,9 +1795,10 @@ namespace WoWDB.Entities
         public long targetEntry { get; set; }
 
     }
-
+    [Table("item_template")]
     public partial class item_template
     {
+        [Key]
         public long entry { get; set; }
 
         public long class_ { get; set; }
@@ -2009,9 +2082,10 @@ namespace WoWDB.Entities
         public long ExtraFlags { get; set; }
 
     }
-
+    [Table("locales_creature")]
     public partial class locales_creature
     {
+        [Key]
         public long entry { get; set; }
 
         public string name_loc1 { get; set; }
@@ -2047,9 +2121,10 @@ namespace WoWDB.Entities
         public string subname_loc8 { get; set; }
 
     }
-
+    [Table("locales_gameobject")]
     public partial class locales_gameobject
     {
+        [Key]
         public long entry { get; set; }
 
         public string name_loc1 { get; set; }
@@ -2085,9 +2160,10 @@ namespace WoWDB.Entities
         public string castbarcaption_loc8 { get; set; }
 
     }
-
+    [Table("locales_gossip_menu_option")]
     public partial class locales_gossip_menu_option
     {
+        [Key]
         public long menu_id { get; set; }
 
         public long id { get; set; }
@@ -2125,9 +2201,10 @@ namespace WoWDB.Entities
         public string box_text_loc8 { get; set; }
 
     }
-
+    [Table("locales_item")]
     public partial class locales_item
     {
+        [Key]
         public long entry { get; set; }
 
         public string name_loc1 { get; set; }
@@ -2163,9 +2240,10 @@ namespace WoWDB.Entities
         public string description_loc8 { get; set; }
 
     }
-
+    [Table("locales_npc_text")]
     public partial class locales_npc_text
     {
+        [Key]
         public long entry { get; set; }
 
         public string Text0_0_loc1 { get; set; }
@@ -2425,9 +2503,10 @@ namespace WoWDB.Entities
         public string Text7_1_loc8 { get; set; }
 
     }
-
+    [Table("locales_page_text")]
     public partial class locales_page_text
     {
+        [Key]
         public long entry { get; set; }
 
         public string Text_loc1 { get; set; }
@@ -2447,9 +2526,10 @@ namespace WoWDB.Entities
         public string Text_loc8 { get; set; }
 
     }
-
+    [Table("locales_points_of_interest")]
     public partial class locales_points_of_interest
     {
+        [Key]
         public long entry { get; set; }
 
         public string icon_name_loc1 { get; set; }
@@ -2469,9 +2549,10 @@ namespace WoWDB.Entities
         public string icon_name_loc8 { get; set; }
 
     }
-
+    [Table("locales_quest")]
     public partial class locales_quest
     {
+        [Key]
         public long entry { get; set; }
 
         public string Title_loc1 { get; set; }
@@ -2635,9 +2716,10 @@ namespace WoWDB.Entities
         public string ObjectiveText4_loc8 { get; set; }
 
     }
-
+    [Table("mail_level_reward")]
     public partial class mail_level_reward
     {
+        [Key]
         public long level { get; set; }
 
         public long raceMask { get; set; }
@@ -2647,9 +2729,10 @@ namespace WoWDB.Entities
         public long senderEntry { get; set; }
 
     }
-
+    [Table("mail_loot_template")]
     public partial class mail_loot_template
     {
+        [Key]
         public long entry { get; set; }
 
         public long item { get; set; }
@@ -2665,9 +2748,10 @@ namespace WoWDB.Entities
         public long condition_id { get; set; }
 
     }
-
+    [Table("mangos_string")]
     public partial class mangos_string
     {
+        [Key]
         public long entry { get; set; }
 
         public string content_default { get; set; }
@@ -2689,17 +2773,19 @@ namespace WoWDB.Entities
         public string content_loc8 { get; set; }
 
     }
-
+    [Table("npc_gossip")]
     public partial class npc_gossip
     {
+        [Key]
         public long npc_guid { get; set; }
 
         public long textid { get; set; }
 
     }
-
+    [Table("npc_text")]
     public partial class npc_text
     {
+        [Key]
         public long ID { get; set; }
 
         public string text0_0 { get; set; }
@@ -2863,9 +2949,10 @@ namespace WoWDB.Entities
         public long em7_5 { get; set; }
 
     }
-
+    [Table("npc_trainer")]
     public partial class npc_trainer
     {
+        [Key]
         public long entry { get; set; }
 
         public long spell { get; set; }
@@ -2881,9 +2968,10 @@ namespace WoWDB.Entities
         public long condition_id { get; set; }
 
     }
-
+    [Table("npc_trainer_template")]
     public partial class npc_trainer_template
     {
+        [Key]
         public long entry { get; set; }
 
         public long spell { get; set; }
@@ -2899,11 +2987,12 @@ namespace WoWDB.Entities
         public long condition_id { get; set; }
 
     }
-
+    [Table("npc_vendor")]
     public partial class npc_vendor
     {
+        [Key]
         public long entry { get; set; }
-
+        [Key]
         public long item { get; set; }
 
         public long maxcount { get; set; }
@@ -2917,11 +3006,12 @@ namespace WoWDB.Entities
         public string comments { get; set; }
 
     }
-
+    [Table("npc_vendor_template")]
     public partial class npc_vendor_template
     {
+        [Key]
         public long entry { get; set; }
-
+        [Key]
         public long item { get; set; }
 
         public long maxcount { get; set; }
@@ -2935,9 +3025,10 @@ namespace WoWDB.Entities
         public string comments { get; set; }
 
     }
-
+    [Table("page_text")]
     public partial class page_text
     {
+        [Key]
         public long entry { get; set; }
 
         public string text { get; set; }
@@ -2945,9 +3036,10 @@ namespace WoWDB.Entities
         public long next_page { get; set; }
 
     }
-
+    [Table("pet_familystats")]
     public partial class pet_familystats
     {
+        [Key]
         public long family { get; set; }
 
         public double healthModifier { get; set; }
@@ -2957,11 +3049,12 @@ namespace WoWDB.Entities
         public double armorModifier { get; set; }
 
     }
-
+    [Table("pet_levelstats")]
     public partial class pet_levelstats
     {
+        [Key]
         public long creature_entry { get; set; }
-
+        [Key]
         public long level { get; set; }
 
         public long hp { get; set; }
@@ -2981,9 +3074,10 @@ namespace WoWDB.Entities
         public long spi { get; set; }
 
     }
-
+    [Table("pet_name_generation")]
     public partial class pet_name_generation
     {
+        [Key]
         public long id { get; set; }
 
         public string word { get; set; }
@@ -2993,9 +3087,10 @@ namespace WoWDB.Entities
         public long half { get; set; }
 
     }
-
+    [Table("petcreateinfo_spell")]
     public partial class petcreateinfo_spell
     {
+        [Key]
         public long entry { get; set; }
 
         public long Spell1 { get; set; }
@@ -3007,11 +3102,12 @@ namespace WoWDB.Entities
         public long Spell4 { get; set; }
 
     }
-
+    [Table("pickpocketing_loot_template")]
     public partial class pickpocketing_loot_template
     {
+        [Key]
         public long entry { get; set; }
-
+        [Key]
         public long item { get; set; }
 
         public double ChanceOrQuestChance { get; set; }
@@ -3025,11 +3121,12 @@ namespace WoWDB.Entities
         public long condition_id { get; set; }
 
     }
-
+    [Table("player_classlevelstats")]
     public partial class player_classlevelstats
     {
+        [Key]
         public long Class { get; set; }
-
+        [Key]
         public long level { get; set; }
 
         public long basehp { get; set; }
@@ -3037,13 +3134,14 @@ namespace WoWDB.Entities
         public long basemana { get; set; }
 
     }
-
+    [Table("player_levelstats")]
     public partial class player_levelstats
     {
+        [Key]
         public long race { get; set; }
-
-        public long class_ { get; set; }
-
+        [Key]
+        public long Class { get; set; }
+        [Key]
         public long level { get; set; }
 
         public long str { get; set; }
@@ -3057,20 +3155,22 @@ namespace WoWDB.Entities
         public long spi { get; set; }
 
     }
-
+    [Table("player_xp_for_level")]
     public partial class player_xp_for_level
     {
+        [Key]
         public long lvl { get; set; }
 
         public long xp_for_next_level { get; set; }
 
     }
-
+    [Table("playercreateinfo")]
     public partial class playercreateinfo
     {
+        [Key]
         public long race { get; set; }
-
-        public long class_ { get; set; }
+        [Key]
+        public long Class { get; set; }
 
         public long map { get; set; }
 
@@ -3085,12 +3185,13 @@ namespace WoWDB.Entities
         public double orientation { get; set; }
 
     }
-
+    [Table("playercreateinfo_action")]
     public partial class playercreateinfo_action
     {
+        [Key]
         public long race { get; set; }
-
-        public long class_ { get; set; }
+        [Key]
+        public long Class { get; set; }
 
         public long button { get; set; }
 
@@ -3099,33 +3200,36 @@ namespace WoWDB.Entities
         public long type { get; set; }
 
     }
-
+    [Table("playercreateinfo_item")]
     public partial class playercreateinfo_item
     {
+        [Key]
         public long race { get; set; }
-
-        public long class_ { get; set; }
+        [Key]
+        public long Class { get; set; }
 
         public long itemid { get; set; }
 
         public long amount { get; set; }
 
     }
-
+    [Table("playercreateinfo_spell")]
     public partial class playercreateinfo_spell
     {
+        [Key]
         public long race { get; set; }
-
-        public long class_ { get; set; }
+        [Key]
+        public long Class { get; set; }
 
         public long Spell { get; set; }
 
         public string Note { get; set; }
 
     }
-
+    [Table("points_of_interest")]
     public partial class points_of_interest
     {
+        [Key]
         public long entry { get; set; }
 
         public double x { get; set; }
@@ -3141,9 +3245,10 @@ namespace WoWDB.Entities
         public string icon_name { get; set; }
 
     }
-
+    [Table("pool_creature")]
     public partial class pool_creature
     {
+        [Key]
         public long guid { get; set; }
 
         public long pool_entry { get; set; }
@@ -3153,9 +3258,10 @@ namespace WoWDB.Entities
         public string description { get; set; }
 
     }
-
+    [Table("pool_creature_template")]
     public partial class pool_creature_template
     {
+        [Key]
         public long id { get; set; }
 
         public long pool_entry { get; set; }
@@ -3165,9 +3271,10 @@ namespace WoWDB.Entities
         public string description { get; set; }
 
     }
-
+    [Table("pool_gameobject")]
     public partial class pool_gameobject
     {
+        [Key]
         public long guid { get; set; }
 
         public long pool_entry { get; set; }
@@ -3177,9 +3284,10 @@ namespace WoWDB.Entities
         public string description { get; set; }
 
     }
-
+    [Table("pool_gameobject_template")]
     public partial class pool_gameobject_template
     {
+        [Key]
         public long id { get; set; }
 
         public long pool_entry { get; set; }
@@ -3189,9 +3297,10 @@ namespace WoWDB.Entities
         public string description { get; set; }
 
     }
-
+    [Table("pool_pool")]
     public partial class pool_pool
     {
+        [Key]
         public long pool_id { get; set; }
 
         public long mother_pool { get; set; }
@@ -3201,9 +3310,10 @@ namespace WoWDB.Entities
         public string description { get; set; }
 
     }
-
+    [Table("pool_template")]
     public partial class pool_template
     {
+        [Key]
         public long entry { get; set; }
 
         public long max_limit { get; set; }
@@ -3211,9 +3321,10 @@ namespace WoWDB.Entities
         public string description { get; set; }
 
     }
-
+    [Table("prospecting_loot_template")]
     public partial class prospecting_loot_template
     {
+        [Key]
         public long entry { get; set; }
 
         public long item { get; set; }
@@ -3231,9 +3342,10 @@ namespace WoWDB.Entities
         public string comments { get; set; }
 
     }
-
+    [Table("quest_template")]
     public partial class quest_template
     {
+        [Key]
         public long entry { get; set; }
 
         public long Method { get; set; }
@@ -3501,9 +3613,10 @@ namespace WoWDB.Entities
         public long CompleteScript { get; set; }
 
     }
-
+    [Table("reference_loot_template")]
     public partial class reference_loot_template
     {
+        [Key]
         public long entry { get; set; }
 
         public long item { get; set; }
@@ -3521,17 +3634,19 @@ namespace WoWDB.Entities
         public string comments { get; set; }
 
     }
-
+    [Table("reference_loot_template_names")]
     public partial class reference_loot_template_names
     {
+        [Key]
         public long entry { get; set; }
 
         public string name { get; set; }
 
     }
-
+    [Table("reputation_reward_rate")]
     public partial class reputation_reward_rate
     {
+        [Key]
         public long faction { get; set; }
 
         public double quest_rate { get; set; }
@@ -3541,9 +3656,10 @@ namespace WoWDB.Entities
         public double spell_rate { get; set; }
 
     }
-
+    [Table("reputation_spillover_template")]
     public partial class reputation_spillover_template
     {
+        [Key]
         public long faction { get; set; }
 
         public long faction1 { get; set; }
@@ -3571,15 +3687,16 @@ namespace WoWDB.Entities
         public long rank_4 { get; set; }
 
     }
-
+    [Table("reserved_name")]
     public partial class reserved_name
     {
         public string name { get; set; }
 
     }
-
+    [Table("script_texts")]
     public partial class script_texts
     {
+        [Key]
         public long entry { get; set; }
 
         public string content_default { get; set; }
@@ -3611,9 +3728,10 @@ namespace WoWDB.Entities
         public string comment { get; set; }
 
     }
-
+    [Table("script_waypoint")]
     public partial class script_waypoint
     {
+        [Key]
         public long entry { get; set; }
 
         public long pointid { get; set; }
@@ -3629,25 +3747,28 @@ namespace WoWDB.Entities
         public string point_comment { get; set; }
 
     }
-
+    [Table("scripted_areatrigger")]
     public partial class scripted_areatrigger
     {
+        [Key]
         public long entry { get; set; }
 
         public string ScriptName { get; set; }
 
     }
-
+    [Table("scripted_event_id")]
     public partial class scripted_event_id
     {
+        [Key]
         public long id { get; set; }
 
         public string ScriptName { get; set; }
 
     }
-
+    [Table("skill_discovery_template")]
     public partial class skill_discovery_template
     {
+        [Key]
         public long spellId { get; set; }
 
         public long reqSpell { get; set; }
@@ -3655,9 +3776,10 @@ namespace WoWDB.Entities
         public double chance { get; set; }
 
     }
-
+    [Table("skill_extra_item_template")]
     public partial class skill_extra_item_template
     {
+        [Key]
         public long spellId { get; set; }
 
         public long requiredSpecialization { get; set; }
@@ -3667,17 +3789,19 @@ namespace WoWDB.Entities
         public long additionalMaxNum { get; set; }
 
     }
-
+    [Table("skill_fishing_base_level")]
     public partial class skill_fishing_base_level
     {
+        [Key]
         public long entry { get; set; }
 
         public long skill { get; set; }
 
     }
-
+    [Table("skinning_loot_template")]
     public partial class skinning_loot_template
     {
+        [Key]
         public long entry { get; set; }
 
         public long item { get; set; }
@@ -3695,9 +3819,10 @@ namespace WoWDB.Entities
         public string comments { get; set; }
 
     }
-
+    [Table("spell_affect")]
     public partial class spell_affect
     {
+        [Key]
         public long entry { get; set; }
 
         public long effectId { get; set; }
@@ -3705,9 +3830,10 @@ namespace WoWDB.Entities
         public long SpellFamilyMask { get; set; }
 
     }
-
+    [Table("spell_area")]
     public partial class spell_area
     {
+        [Key]
         public long spell { get; set; }
 
         public long area { get; set; }
@@ -3729,9 +3855,10 @@ namespace WoWDB.Entities
         public long autocast { get; set; }
 
     }
-
+    [Table("spell_bonus_data")]
     public partial class spell_bonus_data
     {
+        [Key]
         public long entry { get; set; }
 
         public double direct_bonus { get; set; }
@@ -3745,9 +3872,10 @@ namespace WoWDB.Entities
         public string comments { get; set; }
 
     }
-
+    [Table("spell_chain")]
     public partial class spell_chain
     {
+        [Key]
         public long spell_id { get; set; }
 
         public long prev_spell { get; set; }
@@ -3759,25 +3887,28 @@ namespace WoWDB.Entities
         public long req_spell { get; set; }
 
     }
-
+    [Table("spell_elixir")]
     public partial class spell_elixir
     {
+        [Key]
         public long entry { get; set; }
 
         public long mask { get; set; }
 
     }
-
+    [Table("spell_facing")]
     public partial class spell_facing
     {
+        [Key]
         public long entry { get; set; }
 
         public long facingcasterflag { get; set; }
 
     }
-
+    [Table("spell_learn_spell")]
     public partial class spell_learn_spell
     {
+        [Key]
         public long entry { get; set; }
 
         public long SpellID { get; set; }
@@ -3785,9 +3916,10 @@ namespace WoWDB.Entities
         public long Active { get; set; }
 
     }
-
+    [Table("spell_pet_auras")]
     public partial class spell_pet_auras
     {
+        [Key]
         public long spell { get; set; }
 
         public long pet { get; set; }
@@ -3795,9 +3927,10 @@ namespace WoWDB.Entities
         public long aura { get; set; }
 
     }
-
+    [Table("spell_proc_event")]
     public partial class spell_proc_event
     {
+        [Key]
         public long entry { get; set; }
 
         public long SchoolMask { get; set; }
@@ -3821,17 +3954,19 @@ namespace WoWDB.Entities
         public long Cooldown { get; set; }
 
     }
-
+    [Table("spell_proc_item_enchant")]
     public partial class spell_proc_item_enchant
     {
+        [Key]
         public long entry { get; set; }
 
         public double ppmRate { get; set; }
 
     }
-
+    [Table("spell_script_target")]
     public partial class spell_script_target
     {
+        [Key]
         public long entry { get; set; }
 
         public long type { get; set; }
@@ -3841,9 +3976,10 @@ namespace WoWDB.Entities
         public long inverseEffectMask { get; set; }
 
     }
-
+    [Table("spell_target_position")]
     public partial class spell_target_position
     {
+        [Key]
         public long id { get; set; }
 
         public long target_map { get; set; }
@@ -3857,9 +3993,10 @@ namespace WoWDB.Entities
         public double target_orientation { get; set; }
 
     }
-
+    [Table("spell_template")]
     public partial class spell_template
     {
+        [Key]
         public long Id { get; set; }
 
         public long Category { get; set; }
@@ -4207,9 +4344,10 @@ namespace WoWDB.Entities
         public long IsServerSide { get; set; }
 
     }
-
+    [Table("spell_threat")]
     public partial class spell_threat
     {
+        [Key]
         public long entry { get; set; }
 
         public long Threat { get; set; }
@@ -4219,9 +4357,10 @@ namespace WoWDB.Entities
         public double ap_bonus { get; set; }
 
     }
-
+    [Table("transports")]
     public partial class transports
     {
+        [Key]
         public long entry { get; set; }
 
         public string name { get; set; }
@@ -4229,9 +4368,10 @@ namespace WoWDB.Entities
         public long period { get; set; }
 
     }
-
+    [Table("world_template")]
     public partial class world_template
     {
+        [Key]
         public long map { get; set; }
 
         public string ScriptName { get; set; }
