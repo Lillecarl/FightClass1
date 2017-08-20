@@ -2,6 +2,7 @@
 using Dapper;
 using Dapper.Contrib;
 using Dapper.Contrib.Extensions;
+using SpellWork;
 
 namespace WoWDB.Entities
 {
@@ -4075,7 +4076,7 @@ namespace WoWDB.Entities
 
         public long ManaPerSecondPerLevel { get; set; }
 
-        public long RangeIndex { get; set; }
+        public uint RangeIndex { get; set; }
 
         public double Speed { get; set; }
 

@@ -18,6 +18,7 @@ using FightClass1;
 using FightClass1.FightClasses;
 using SpellWork;
 using WoWDB;
+using Newtonsoft.Json;
 
 public class Main : ICustomClass
 {
@@ -37,6 +38,15 @@ public class Main : ICustomClass
             DBC.SkillLineAbility = DBCReader.ReadDBC<SkillLineAbilityEntry>(null);
             DBC.SpellRadius = DBCReader.ReadDBC<SpellRadiusEntry>(null);
             DBC.SpellCastTimes = DBCReader.ReadDBC<SpellCastTimesEntry>(null);
+
+
+            Logging.Write(string.Format("Loaded {0} Spells from DBC", DBC.Spell.Count));
+            Logging.Write(string.Format("Loaded {0} SkillLines from DBC", DBC.SkillLine.Count));
+            Logging.Write(string.Format("Loaded {0} SpellRanges from DBC", DBC.SpellRange.Count));
+            Logging.Write(string.Format("Loaded {0} SpellDurations from DBC", DBC.SpellDuration.Count));
+            Logging.Write(string.Format("Loaded {0} SkillLineAbilitys from DBC", DBC.SkillLineAbility.Count));
+            Logging.Write(string.Format("Loaded {0} SpellRadiuss from DBC", DBC.SpellRadius.Count));
+            Logging.Write(string.Format("Loaded {0} SpellCastTimes from DBC", DBC.SpellCastTimes.Count));
         }
         else
             Logging.WriteError("DBC Folder doesn't exist!");

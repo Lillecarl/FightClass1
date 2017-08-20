@@ -71,7 +71,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CSpell.cs" />
-    <Compile Include="Helper.cs" />
     <Compile Include="WoWAPI.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

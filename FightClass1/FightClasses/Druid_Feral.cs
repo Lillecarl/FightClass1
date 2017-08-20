@@ -16,6 +16,7 @@ using SpellWork;
 using WoWDB;
 using WoWDB.Entities;
 using WoWAPI;
+using System.Diagnostics;
 
 namespace FightClass1.FightClasses
 {
@@ -35,6 +36,9 @@ namespace FightClass1.FightClasses
         CSpell manglecat = new CSpell("Mangle (Cat)");
         CSpell rake = new CSpell("Rake");
         CSpell aquaticform = new CSpell("Aquatic Form");
+        CSpell travelform = new CSpell("Travel Form");
+        CSpell innervate = new CSpell("Innervate");
+        CSpell attack = new CSpell("Attack");
 
         WoWLocalPlayer player = null;
         WoWUnit target = null;
@@ -44,6 +48,7 @@ namespace FightClass1.FightClasses
         Int64 basemana = 0;
 
         int _RunOnInterval = 2;
+        DateTime lastupdate = DateTime.Now;
 
         public override void Init()
         {
@@ -51,27 +56,29 @@ namespace FightClass1.FightClasses
 
         public override void Update()
         {
+            if ((DateTime.Now - lastupdate).TotalMilliseconds < 500)
+                return;
+
+            lastupdate = DateTime.Now;
+
+            DateTime start = DateTime.Now;
+
             player = WoWAPI.WoWAPI.Player;
             target = WoWAPI.WoWAPI.Target;
 
             if (player.IsDead)
                 return;
 
-            long manacost = regrowth.RealManaCost(player.MaxMana);
-            if (player.HaveBuff("Cat Form"))
-                manacost += catform.RealManaCost(basemana);
+            Heal();
 
-            if (((player.MaxHealth - player.Health > 700 && !player.HaveBuff("Regrowth")) || (player.HealthPercent < 30)) && player.Mana >= manacost)
-                regrowth.LaunchUsable();
-
-            if (!player.InCombat && !player.HaveBuff("Prowl") && SpellManager.KnowSpell("Pounce") && Helper.GetRange(player, target) < target.AggroDistance + 5)
-                prowl.LaunchUsable();
+            /*if (!player.InCombat && !player.HaveBuff("Prowl") && SpellManager.KnowSpell("Pounce") && WoWAPI.WoWAPI.GetDistance(player, target) < target.AggroDistance + 5)
+                prowl.LaunchUsable();*/
 
             if (player.InCombat)
             {
                 if (target != null)
                 {
-                    if (!player.HaveBuff("Cat Form") && target.IsAttackable && Helper.GetRange(player, target) < target.AggroDistance + 10)
+                    if (!player.HaveBuff("Cat Form") && target.IsAttackable && WoWAPI.WoWAPI.GetDistance(player, target) < target.AggroDistance + 10)
                         catform.LaunchUsable();
 
                     if (target.HaveBuff("Mangle (Cat)") && !target.HaveBuff("Rake"))
@@ -93,13 +100,16 @@ namespace FightClass1.FightClasses
             {
                 if (player.IsSwimming && !player.HaveBuff("Aquatic Form"))
                     aquaticform.LaunchUsable();
+                /*if (player.GetMove && WoWAPI.WoWAPI.GetDistance(player.Position, MovementManager.CurrentPath.LastOrDefault()) > 50)
+                    travelform.LaunchUsable();*/
+
             }
 
             if (target != null && target.IsAttackable && !target.HaveBuff("Faerie Fire") && !target.HaveBuff("Faerie Fire (Feral)") && !player.HaveBuff("Prowl"))
             {
                 if (player.HaveBuff("Cat Form") || player.HaveBuff("Bear Form") || player.HaveBuff("Dire Bear Form"))
                 {
-                    if (Helper.GetRange(player, target) < faeriefireferal.MaxRange)
+                    if (WoWAPI.WoWAPI.GetDistance(player, target) < faeriefireferal.MaxRange)
                     {
                         // For some reason this spell is bugged and can't be cast like other spells...
                         Lua.RunMacroText("/cast Faerie Fire (Feral)(Rank 5)");
@@ -113,15 +123,33 @@ namespace FightClass1.FightClasses
                     faeriefire.LaunchUsable(true);
             }
 
+            if (player.ManaPercentage < 20)
+                innervate.LaunchUsable(true, false);
+
             RunOnInterval();
+
+            if (player.Level == 70)
+            {
+                try
+                {
+                    foreach (Process proc in Process.GetProcessesByName("wow"))
+                    {
+                        proc.Kill();
+                    }
+                }
+                catch
+                {
+                }
+            }
+
+            Logging.WriteDebug(string.Format("FightClass update took {0} ms", (DateTime.Now - start).TotalMilliseconds));
         }
 
         public void RunOnInterval()
         {
             if (DateTime.Now > _LastRunOnInterval.AddSeconds(_RunOnInterval) && !player.IsMounted)
             {
-                basemana = Database.ExecuteScalar<long>("SELECT basemana FROM player_classlevelstats WHERE Class = @Class AND level = @Level", new { Class = player.WowClass.ToUInt32(), Level = player.Level });
-                Logging.WriteDebug(string.Format("Basemana: {0}", basemana));
+                basemana = Database.ExecuteScalar<long>("SELECT basemana FROM player_classlevelstats WHERE Class = @Class AND level = @Level LIMIT 1", new { Class = player.WowClass.ToUInt32(), Level = player.Level });
 
                 Buff();
                 RemoveItems();
@@ -143,19 +171,47 @@ namespace FightClass1.FightClasses
             foreach (var i in Party.GetRaidMembers())
                 players.Add(i);
 
+            foreach (var i in ObjectManager.GetObjectWoWPlayer())
+                if (!i.IsAttackable)
+                    players.Add(i);
+
             foreach (var i in players)
             {
+                if (i.IsDead)
+                    continue;
+
                 if (!i.HaveBuff("Mark of the Wild") && !i.HaveBuff("Gift of the Wild"))
-                {
-                    player.Target = i.Guid;
-                    motw.LaunchUsable();
-                }
+                    motw.LaunchUsable(i.Name, true);
 
                 if (!i.HaveBuff("Thorns"))
-                {
-                    player.Target = i.Guid;
-                    thorns.LaunchUsable();
-                }
+                    thorns.LaunchUsable(i.Name, true);
+            }
+        }
+
+        public void Heal()
+        {
+            if (player.IsMounted)
+                return;
+
+            var players = new List<WoWPlayer>() { player };
+
+            foreach (var i in Party.GetParty())
+                players.Add(i);
+
+            foreach (var i in Party.GetRaidMembers())
+                players.Add(i);
+
+            foreach (var i in players)
+            {
+                if (i.IsDead)
+                    continue;
+
+                long manacost = regrowth.RealManaCost(player.MaxMana);
+                if (player.HaveBuff("Cat Form"))
+                    manacost += catform.RealManaCost(basemana);
+
+                if (i.MaxHealth - i.Health > 1500 && player.Mana > manacost && !i.HaveBuff("Regrowth") && !player.IsCast)
+                    regrowth.LaunchUsable(i.Name, true);
             }
         }
 
@@ -172,7 +228,15 @@ namespace FightClass1.FightClasses
             {
                 var item = Database.Get<item_template, int>(i.Entry);
 
-                if ((item.Quality == 0 || item.Quality == 1) && item.bonding != 4 && item.spellid_1 == 0 && item.spellid_2 == 0 && item.spellid_3 == 0 && item.spellid_4 == 0 && item.spellid_5 == 0)
+                bool remove = true;
+
+                if (item.entry == 6948 || item.name.ToLower().Contains("hearthstone"))
+                    remove = false;
+
+                if (!((item.Quality == 0/* || item.Quality == 1*/) && item.bonding != 4 && item.spellid_1 == 0 && item.spellid_2 == 0 && item.spellid_3 == 0 && item.spellid_4 == 0 && item.spellid_5 == 0))
+                    remove = false;
+
+                if (remove)
                     RemoveItem(item);
             }
         }
