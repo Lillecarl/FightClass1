@@ -43,15 +43,59 @@ namespace WoWAPI
 
         public SpellEntry SpellEntry { get; private set; }
 
-        public void LaunchUsable(bool checkrange = false)
+        public bool CanCast(bool checkrange = false)
         {
             bool inrange = !checkrange;
 
             if (!inrange && WoWAPI.Target != null)
-                inrange = Helper.GetRange(WoWAPI.Player, WoWAPI.Target) < MaxRange;
+                inrange = WoWAPI.GetDistance(WoWAPI.Player, WoWAPI.Target) < MaxRange;
 
             if (inrange && !ObjectManager.Me.IsCast && IsSpellUsable && !WoWAPI.Player.HaveBuff("Drink") && !WoWAPI.Player.HaveBuff("Food"))
-                Lua.RunMacroText(string.Format("/cast {0}", this.NameInGame));
+                return true;
+
+            return false;
+        }
+
+        public void LaunchUsable(bool self = false, bool checkrange = false)
+        {
+            bool inrange = !checkrange;
+
+            if (!inrange && WoWAPI.Target != null)
+                inrange = WoWAPI.GetDistance(WoWAPI.Player, WoWAPI.Target) < MaxRange;
+
+            if (inrange && !ObjectManager.Me.IsCast && IsSpellUsable && !WoWAPI.Player.HaveBuff("Drink") && !WoWAPI.Player.HaveBuff("Food"))
+            {
+                if (self)
+                    Lua.RunMacroText(string.Format("/cast [@player] {0}", this.NameInGame));
+                else
+                    Lua.RunMacroText(string.Format("/cast {0}", this.NameInGame));
+            }
+        }
+
+        public void LaunchUsable(string targetname, bool checkrange = false)
+        {
+            WoWUnit target = null;
+
+            foreach (var i in ObjectManager.GetObjectWoWPlayer())
+                if (i.Name.ToLower() == targetname.ToLower())
+                    target = i;
+
+            if (ObjectManager.Me.Name.ToLower() == targetname.ToLower())
+                target = ObjectManager.Me;
+
+            bool inrange = !checkrange;
+
+            if (!inrange && target != null)
+                inrange = WoWAPI.GetDistance(ObjectManager.Me, target) < MaxRange;
+
+            Logging.WriteDebug(string.Format("Casting {0} on {1} ({2}", NameInGame, targetname, target.Guid));
+
+            if (target != null && inrange && !ObjectManager.Me.IsCast && IsSpellUsable && !ObjectManager.Me.HaveBuff("Drink") && !ObjectManager.Me.HaveBuff("Food"))
+            {
+                string luastring = string.Format("/cast [target={0}] {1}", targetname, this.NameInGame);
+                Lua.RunMacroText(luastring);
+                Logging.WriteDebug(luastring);
+            }
         }
 
         public List<uint> GetKnownSpellIds()
